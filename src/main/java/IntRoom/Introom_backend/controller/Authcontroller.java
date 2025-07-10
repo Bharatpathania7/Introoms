@@ -19,8 +19,12 @@ public class Authcontroller {
 
     @GetMapping("/user/profile")
     public String getProfile(Authentication authentication) {
-        return "Logged in as: " + authentication.getPrincipal();
+        if (authentication == null || authentication.getPrincipal() == null) {
+            return "❌ Not authenticated";
+        }
+        return "✅ Logged in as: " + authentication.getPrincipal().toString();
     }
+
 
 
 
@@ -42,7 +46,7 @@ public class Authcontroller {
     }
 
     @PostMapping("/forget/send-otp")
-    public String Sendotp(@RequestBody String email) {
+    public String Sendotp(@RequestParam String email) {
         return authService.sendOtpForReset(email);
 
     }
