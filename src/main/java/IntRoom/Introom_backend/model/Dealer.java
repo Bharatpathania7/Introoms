@@ -54,6 +54,7 @@ public class Dealer {
     private String id;
     private String name;
     private  String fullname;
+
     private String number;
 
     public String getEmail() {

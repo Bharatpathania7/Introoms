@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
-@AllArgsConstructor
+@AllArgsConstructor // sending room detail to frontend(this isn what student see in thier language)
 @NoArgsConstructor
 public class RoomResponse {
     public String getId() {
@@ -96,13 +98,7 @@ public class RoomResponse {
         this.dealerId = dealerId;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     private String id;
     private String title;
@@ -115,5 +111,14 @@ public class RoomResponse {
     private double price;
     private String contactNumber;
     private String dealerId;
-    private String imageUrl;
+
+    public List<String> getMediaUrls() {
+        return mediaUrls;
+    }
+
+    public void setMediaUrls(List<String> mediaUrls) {
+        this.mediaUrls = mediaUrls;
+    }
+
+    private List<String> mediaUrls;
 }

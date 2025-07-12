@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DealerResponse {
+public class DealerResponse { //  accountview of dealer after login
     private String fullName;
 
     public String getEmail() {
@@ -45,4 +45,22 @@ public class DealerResponse {
     private String email;
     private String city;
     private String phoneNumber;
+    private String businessName;
+    private String licenseNumber;
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
 }

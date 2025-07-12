@@ -6,6 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface DealerRepository  extends MongoRepository<Dealer , String> {
-    @Override
-    Optional<Dealer> findById(String email);
+    Optional<Dealer> findByemail(String email);
 }

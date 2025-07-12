@@ -55,7 +55,7 @@ public class AuthService {
 
         User user = new User();
         user.setEmail(email);
-        user.setName(req.getName());
+        user.setFullname(req.getFullname());
         user.setPassword(req.getPassword());
         user.setRole(req.getRole());
         user.setEmailVerified(true);
@@ -63,6 +63,14 @@ public class AuthService {
         user.setCity(req.getCity());
         user.setLatitude(req.getLatitude());
         user.setLongitude(req.getLongitude());
+
+        // Add dealer-specific fields if role is dealer
+        if ("dealer".equals(req.getRole())) {
+            user.setFullname(req.getFullname());
+            user.setPhoneNumber(req.getPhoneNumber());
+            user.setBusinessName(req.getBusinessName());
+            user.setLicenseNumber(req.getLicenseNumber());
+        }
 
         userrepo.save(user);
         otpMap.remove(email);

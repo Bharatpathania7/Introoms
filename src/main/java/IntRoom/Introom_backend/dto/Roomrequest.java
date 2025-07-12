@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor// when dealer upload the detaiol of room
 @AllArgsConstructor
 public class Roomrequest {
     public String getTitle() {

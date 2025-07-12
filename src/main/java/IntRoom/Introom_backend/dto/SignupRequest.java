@@ -9,13 +9,23 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class SignupRequest {
-    public String getName() {
-        return name;
+
+    private String fullname;
+
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public String getEmail() {
         return email;
@@ -73,7 +83,7 @@ public class SignupRequest {
         this.password = password;
     }
 
-    private String name;
+//    private String name;
     private  String email;
     private String  password;
     private String city;
@@ -81,5 +91,33 @@ public class SignupRequest {
     private String role;//  dealer or student
     private Double latitude;
     private Double  longitude;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
+
+    private String phoneNumber;      // For dealers
+    private String businessName;    // For dealers
+    private String licenseNumber;   // for dealer
 
 }
