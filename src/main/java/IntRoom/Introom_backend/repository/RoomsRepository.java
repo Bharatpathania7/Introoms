@@ -17,6 +17,15 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface RoomsRepository extends MongoRepository<Room, String> {
+
+
+
+
     // This works now, since dealerId matches the field in Room
     List<Room> findByDealerId(String dealerId);
+    List<Room> findByRoomType(String roomType);
+
+    List<Room> findByLocality(String locality);
+
+    List<Room> findByRoomTypeAndLocality(String roomType, String locality);
 }

@@ -1,9 +1,15 @@
+
+
 package IntRoom.Introom_backend.service;
 
 //public class FileuploadService {
 //}
 //package IntRoom.Introom_backend.service;
 
+import IntRoom.Introom_backend.model.Room;
+import IntRoom.Introom_backend.repository.RoomsRepository;
+import IntRoom.Introom_backend.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +24,8 @@ import java.util.UUID;
 public class FileUploadService {
 
     private final S3Client s3Client;
+    @Autowired
+    private RoomsRepository roomsRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -26,7 +34,7 @@ public class FileUploadService {
         this.s3Client = s3Client;
     }
 
-    public String uploadFile(MultipartFile file) throws IOException {
+    public String uploadFile(MultipartFile file , String roomType , String locality, String description , String ContactNumber) throws IOException {
         String key = "uploads/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 
         // Save temp file
@@ -41,6 +49,15 @@ public class FileUploadService {
 
         s3Client.putObject(request, tempFile);
 
-        return "https://" + bucketName + ".s3.amazonaws.com/" + key;
+        String fileurl =  "https://" + bucketName + ".s3.amazonaws.com/" + key;
+        Room media = new Room();
+        media.setRoomtype(roomType);
+        media.setDealerId(media.getDealerId());
+        media.setLocality(locality);
+        media.setDescription(description);
+        media.setContactNumber(ContactNumber);
+
+        roomsRepository.save(media);
+        return fileurl;
     }
 }

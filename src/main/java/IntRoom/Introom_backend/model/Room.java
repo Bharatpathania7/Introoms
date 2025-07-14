@@ -179,6 +179,16 @@ public class Room {
     private double longitude;
     private double price;
     private String contactNumber;
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    private String locality; // in ludhiana areass
     private List<String> imageurls;
     private List<String> videourls;
 
