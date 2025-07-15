@@ -23,9 +23,9 @@ public interface RoomsRepository extends MongoRepository<Room, String> {
 
     // This works now, since dealerId matches the field in Room
     List<Room> findByDealerId(String dealerId);
-    List<Room> findByRoomType(String roomType);
+    List<Room> findByRoomtype(String roomtype);
 
     List<Room> findByLocality(String locality);
 
-    List<Room> findByRoomTypeAndLocality(String roomType, String locality);
+    List<Room> findByRoomtypeAndLocality(String roomtype, String locality);
 }

@@ -34,7 +34,7 @@ public class FileUploadService {
         this.s3Client = s3Client;
     }
 
-    public String uploadFile(MultipartFile file , String roomType , String locality, String description , String ContactNumber) throws IOException {
+    public String uploadFile(MultipartFile file , String roomtype , String locality, String description , String ContactNumber) throws IOException {
         String key = "uploads/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 
         // Save temp file
@@ -51,7 +51,7 @@ public class FileUploadService {
 
         String fileurl =  "https://" + bucketName + ".s3.amazonaws.com/" + key;
         Room media = new Room();
-        media.setRoomtype(roomType);
+        media.setRoomtype(roomtype);
         media.setDealerId(media.getDealerId());
         media.setLocality(locality);
         media.setDescription(description);
