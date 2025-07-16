@@ -38,6 +38,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/dealer/media")
@@ -46,20 +48,73 @@ public class DealerMediaController {
     @Autowired
     private FileUploadService fileuploadService;
 
+//    @PostMapping
+//    public ResponseEntity<?> uploadMedia(
+//            @RequestParam("files") List<MultipartFile> files,
+//            @RequestParam("file") MultipartFile file,
+//            @RequestParam("roomType") String roomType,
+//            @RequestParam("locality") String locality,
+//            @RequestParam(value = "description", required = false) String description,
+//            Principal principal
+//    ) {
+//        try {
+//            String dealerEmail = principal.getName(); // extracted from JWT
+//            String fileUrl = fileuploadService.uploadFile(file, roomType, locality, description, dealerEmail);
+//            return ResponseEntity.ok().body("Uploaded: " + fileUrl);
+//        } catch (IOException e) {
+//            return ResponseEntity.internalServerError().body("Upload failed: " + e.getMessage());
+//        }
+//    }
+//}
+//@RestController
+//@RequestMapping("/dealer/media")
+//public class DealerMediaController {
+//
+//    @Autowired
+//    private FileUploadService fileuploadService;
+
+//    @PostMapping
+//    public ResponseEntity<?> uploadMedia(
+//            @RequestParam("files") List<MultipartFile> files,
+//            @RequestParam("roomType") String roomType,
+//            @RequestParam("locality") String locality,
+//            @RequestParam(value = "description", required = false) String description,
+//            Principal principal
+//    ) {
+//        try {
+//            String dealerEmail = principal.getName(); // extracted from JWT
+//
+//            List<String> uploadedUrls = new ArrayList<>();
+//
+//            for (MultipartFile file : files) {
+//                String fileUrl = fileuploadService.uploadFile(file, roomType, locality, description, dealerEmail);
+//                uploadedUrls.add(fileUrl);
+//            }
+//
+//            return ResponseEntity.ok().body("Uploaded files: " + uploadedUrls);
+//
+//        } catch (IOException e) {
+//            return ResponseEntity.internalServerError().body("Upload failed: " + e.getMessage());
+//        }
+//    }
+//}
+
+
     @PostMapping
-    public ResponseEntity<?> uploadMedia(
-            @RequestParam("file") MultipartFile file,
+    public ResponseEntity<?> uploadMultipleMedia(
+            @RequestParam("files") List<MultipartFile> files,
             @RequestParam("roomType") String roomType,
             @RequestParam("locality") String locality,
             @RequestParam(value = "description", required = false) String description,
             Principal principal
     ) {
         try {
-            String dealerEmail = principal.getName(); // extracted from JWT
-            String fileUrl = fileuploadService.uploadFile(file, roomType, locality, description, dealerEmail);
-            return ResponseEntity.ok().body("Uploaded: " + fileUrl);
+            String dealerEmail = principal.getName(); // from JWT
+            fileuploadService.saveRoomWithFiles(files, roomType, locality, description, dealerEmail);
+            return ResponseEntity.ok("✅ Files uploaded and room saved successfully");
         } catch (IOException e) {
-            return ResponseEntity.internalServerError().body("Upload failed: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("❌ Upload failed: " + e.getMessage());
         }
     }
+
 }
