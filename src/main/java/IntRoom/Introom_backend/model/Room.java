@@ -179,10 +179,12 @@ public class Room {
     private String roomtype;
     private String city;
     private String address;
-    private double latitude;
-    private double longitude;
-    private double price;
+    private Double latitude;
+    private Double longitude;
+    private Double price;
     private String contactNumber;
+    private boolean active = true; // default true
+
 
     public String getLocality() {
         return locality;

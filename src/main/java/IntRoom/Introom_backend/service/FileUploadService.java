@@ -74,6 +74,13 @@ public class FileUploadService {
     @Autowired
     private RoomsRepository roomsRepository;
 
+    @Value("${upload.max-file-size}")
+    private long maxFileSize;
+
+    @Value("#{'${upload.allowed-types}'.split(',')}")
+    private List<String> allowedTypes;
+
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
@@ -100,12 +107,13 @@ public class FileUploadService {
         return roomsRepository.findByDealerId(dealerEmail);
     }
 
-    public void saveRoomWithFiles(List<MultipartFile> files, String roomType, String locality, String description, String dealerEmail) throws IOException {
+    public void saveRoomWithFiles(List<MultipartFile> files, String roomType, String locality, String description, String dealerEmail , Double price ,String city , Double latitude , Double longitude ) throws IOException {
         List<String> imageUrls = new ArrayList<>();
         List<String> videoUrls = new ArrayList<>();
         if (!LocalityValidator.isValid(locality)) {
             throw new IllegalArgumentException("❌ Invalid locality: " + locality);
         }
+
 
         for (MultipartFile file : files) {
             String fileUrl = uploadSingleFile(file);
@@ -119,6 +127,13 @@ public class FileUploadService {
             if (!LocalityValidator.isValid(locality)) {
                 throw new IllegalArgumentException("❌ Invalid locality: " + locality);
             }
+            if (file.getSize() > maxFileSize) {
+                throw new IllegalArgumentException("❌ File size exceeds limit of " + maxFileSize + " bytes");
+            }
+            if (!allowedTypes.contains(file.getContentType())) {
+                throw new IllegalArgumentException("❌ Invalid file type: " + file.getContentType());
+            }
+
         }
 
         Room room = new Room();
@@ -129,6 +144,13 @@ public class FileUploadService {
         room.setImageurls(imageUrls);
         room.setVideourls(videoUrls);
         room.setDealerId(dealerEmail);
+        
+
+        room.setPrice(price != null ? price : 0);
+        room.setCity(city != null ? city : "Ludhiana");
+        room.setLatitude(latitude != null ? latitude : 0);
+        room.setLongitude(longitude != null ? longitude : 0);
+
 
         roomsRepository.save(room);
     }

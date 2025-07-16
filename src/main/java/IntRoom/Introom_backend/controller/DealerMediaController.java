@@ -107,11 +107,15 @@ public class DealerMediaController {
             @RequestParam("roomType") String roomType,
             @RequestParam("locality") String locality,
             @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "price", required = false) Double price,
+            @RequestParam(value = "city", required = false) String city,
+            @RequestParam(value = "latitude", required = false) Double latitude,
+            @RequestParam(value = "longitude", required = false) Double longitude,
             Principal principal
     ) {
         try {
             String dealerEmail = principal.getName(); // from JWT
-            fileuploadService.saveRoomWithFiles(files, roomType, locality, description, dealerEmail);
+            fileuploadService.saveRoomWithFiles(files, roomType, locality, description, dealerEmail, price , city , latitude, longitude);
             return ResponseEntity.ok("✅ Files uploaded and room saved successfully");
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body("❌ Upload failed: " + e.getMessage());
