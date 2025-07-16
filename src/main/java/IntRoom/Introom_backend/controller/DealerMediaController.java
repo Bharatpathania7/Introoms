@@ -30,6 +30,7 @@ package IntRoom.Introom_backend.controller;//package IntRoom.Introom_backend.con
 //    }
 //
 //}
+import IntRoom.Introom_backend.model.Room;
 import IntRoom.Introom_backend.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -116,5 +117,12 @@ public class DealerMediaController {
             return ResponseEntity.internalServerError().body("❌ Upload failed: " + e.getMessage());
         }
     }
+    @GetMapping("/history")
+    public ResponseEntity<List<Room>> getUploadHistory(Principal principal) {
+        String dealerEmail = principal.getName(); // Extracted from JWT
+        List<Room> uploads = fileuploadService.getUploadsByDealer(dealerEmail);
+        return ResponseEntity.ok(uploads);
+    }
+
 
 }

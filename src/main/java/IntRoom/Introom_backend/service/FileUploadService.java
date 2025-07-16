@@ -96,10 +96,16 @@ public class FileUploadService {
         s3Client.putObject(request, tempFile);
         return "https://" + bucketName + ".s3.amazonaws.com/" + key;
     }
+    public List<Room> getUploadsByDealer(String dealerEmail) {
+        return roomsRepository.findByDealerId(dealerEmail);
+    }
 
     public void saveRoomWithFiles(List<MultipartFile> files, String roomType, String locality, String description, String dealerEmail) throws IOException {
         List<String> imageUrls = new ArrayList<>();
         List<String> videoUrls = new ArrayList<>();
+        if (!LocalityValidator.isValid(locality)) {
+            throw new IllegalArgumentException("❌ Invalid locality: " + locality);
+        }
 
         for (MultipartFile file : files) {
             String fileUrl = uploadSingleFile(file);
@@ -122,6 +128,7 @@ public class FileUploadService {
         room.setContactNumber(dealerEmail); // optional: use dealerName field if needed
         room.setImageurls(imageUrls);
         room.setVideourls(videoUrls);
+        room.setDealerId(dealerEmail);
 
         roomsRepository.save(room);
     }

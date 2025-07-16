@@ -171,7 +171,7 @@ public class Room {
     private String id;
 
     // ✅ Renamed from dealerid → dealerId (camelCase)
-    @Transient
+
     private String dealerId;
 
     private String title;
