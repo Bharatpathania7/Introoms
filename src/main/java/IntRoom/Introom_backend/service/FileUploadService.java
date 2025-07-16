@@ -9,6 +9,7 @@ package IntRoom.Introom_backend.service;
 import IntRoom.Introom_backend.model.Room;
 import IntRoom.Introom_backend.repository.RoomsRepository;
 import IntRoom.Introom_backend.repository.UserRepository;
+import IntRoom.Introom_backend.utils.LocalityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,8 @@ import java.util.UUID;
 public class FileUploadService {
 
     private final S3Client s3Client;
+    @Autowired
+    private LocalityValidator localityValidator;
 
     @Autowired
     private RoomsRepository roomsRepository;
@@ -106,6 +109,9 @@ public class FileUploadService {
                 imageUrls.add(fileUrl);
             } else if (contentType != null && contentType.startsWith("video")) {
                 videoUrls.add(fileUrl);
+            }
+            if (!LocalityValidator.isValid(locality)) {
+                throw new IllegalArgumentException("❌ Invalid locality: " + locality);
             }
         }
 
